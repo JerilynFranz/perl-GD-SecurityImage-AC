@@ -6,6 +6,7 @@
 *.o
 *.pm.tdy
 *.bs
+/captcha_temp/
 
 # Devel::Cover
 cover_db/
