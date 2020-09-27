@@ -6,7 +6,10 @@
 *.o
 *.pm.tdy
 *.bs
-/captcha_temp/
+
+# Temporary test files
+t/captcha_temp/data/*
+t/captcha_temp/img/*
 
 # Devel::Cover
 cover_db/
