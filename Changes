@@ -1,7 +1,10 @@
 Revision history for Perl extension GD::SecurityImage::AC.
 
-1.13 Sat Oct 03 12:22:00 2020
+1.13 Mon Oct 05 06:40:00 2020
     * Fixed tests with improper file path handling
+    * Parameterized lock timeout
+    * Fixed problem with unlocking on Win32 caused by using LOCK_NB with LOCK_UN
+    * Changed license to MIT License
 
 1.12 Sun Sep 27 07:02:00 2020
     * Changed license to MIT

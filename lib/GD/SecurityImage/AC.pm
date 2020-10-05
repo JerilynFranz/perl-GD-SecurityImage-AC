@@ -57,10 +57,19 @@ sub _lock { # Non-blocking locking with a timeout
    }
    my $count_timer  = 10 * $timeout;
    my $lock_result;
-   while (! ($lock_result = flock ($lock_handle, $lock_mode | &LOCK_NB))) {
+   my $effective_lock_mode = (&LOCK_UN == $lock_mode) ? $lock_mode : $lock_mode | &LOCK_NB;
+   while (! ($lock_result = flock ($lock_handle, $effective_lock_mode))) {
       if (! $count_timer--) {
          my $package = __PACKAGE__;
-         die("${package}::_lock() - Failed to obtain lock in $timeout seconds: $!");
+         my $lock_description = 'non-blocking ';
+         if (&LOCK_EX == $lock_mode) {
+            $lock_description .= ' exclusive lock'
+         } elsif (&LOCK_SH == $lock_mode) {
+            $lock_description .= ' shared lock'
+         } elsif (&LOCK_UN == $lock_mode) {
+            $lock_description .= ' unlock'
+         }
+         die("${package}::_lock() - Failed to obtain $lock_description in $timeout seconds: $!");
       }
       # sleep for 1/10th of a second before trying again
       select (undef,undef,undef,0.1);
